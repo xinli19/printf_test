@@ -1,72 +1,41 @@
-NAME = libft.a
+NAME = libftprintf.a
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-RM = rm -f
+CFILES =    ft_itoa.c \
+			ft_print_char.c\
+			ft_print_hex.c\
+			ft_print_int.c\
+			ft_print_pointer.c\
+			ft_print_str.c\
+			ft_print_unsigned.c\
+			ft_printf.c \
+			ft_strchr.c \
 
-CODES = ft_memset \
-		ft_bzero \
-		ft_memcpy \
-		ft_memmove \
-		ft_memcmp \
-		ft_memchr \
-		ft_strlen \
-		ft_strlcpy \
-		ft_strlcat \
-		ft_strncmp \
-		ft_strchr \
-		ft_strrchr \
-		ft_strnstr \
-		ft_strdup \
-		ft_atoi \
-		ft_isalpha \
-		ft_isdigit \
-		ft_isalnum \
-		ft_isascii \
-		ft_isprint \
-		ft_toupper \
-		ft_tolower \
-		ft_calloc \
-		ft_strdup \
-		ft_substr \
-		ft_strjoin \
-		ft_strtrim \
-		ft_split \
-		ft_itoa \
-		ft_strmapi \
-		ft_putchar_fd \
-		ft_putstr_fd \
-		ft_putendl_fd \
-		ft_putnbr_fd \
-		ft_striteri \
-		ft_puthex_lower \
-		ft_putpointer \
-		ft_puthex_upper \
-		ft_put_unsigned \
-		ft_printf \
+OBJECTS = $(CFILES:.c=.o)
 
-SRCS_DIR = ./
-SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(CODES)))
+MAKE = make
 
-OBJS_DIR = ./
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(CODES)))
+LIB_PATH = ./libft
 
+CC = cc
 
-.c.o: $(SRCS)
-	$(CC) $(CFLAGS) -c -o $@ $<
+CFLAGS = -Wall -Wextra -Werror -c
 
-$(NAME): $(OBJS)
-	$(AR) $@ $^
+all: subsystem $(NAME)
 
-all: $(NAME)
+subsystem:
+	$(MAKE) -C $(LIB_PATH)
+
+bonus: all
+
+$(NAME): $(OBJECTS)
+	ar -rcs $(NAME) $(OBJECTS) $(LIB_PATH)/*.o
 
 clean:
-	$(RM) $(OBJS) 
+	$(MAKE) -C $(LIB_PATH) clean
+	rm -f $(OBJECTS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(MAKE) -C $(LIB_PATH) fclean
+	rm -f $(NAME)
 
-re: clean all
-
-.PHONY: bonus all clean fclean re
+re: fclean all

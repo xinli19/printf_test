@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "libftprintf.h"
 static int	find_length(unsigned long n)
 {
 	int	i;
@@ -47,6 +48,8 @@ static int	ft_put_hexstr(char *s)
 		i++;
 		sum = 2;
 	}
+	while (s[i] == 48)
+		i++;
 	while(s[i])
 	{
 		write(1, &s[i], 1);
@@ -67,7 +70,7 @@ static void	ft_arr_tolower(char *digits)
 	}
 }
 
-int	ft_print_pointer(char *p)
+int	ft_print_pointer(void *p)
 {
 	unsigned long	address;
 	int				length;
@@ -77,15 +80,15 @@ int	ft_print_pointer(char *p)
 	address = (unsigned long)p;
 	if (address == 0)
 	{
-		write(1, "0x0", 3);
-		return (3);
+		write(1, "(nil)", 5);
+		return (5);
 	}
 	else
 	{
 		length = find_length(address);
 		digits = (char *)malloc(length + 1);
-		if (digits == NULL)
-			return (printf("error"));
+		if (!digits)
+			return (0);
 		set_hex_arr(digits, address, length);
 		ft_arr_tolower(digits);
 		sum = ft_put_hexstr(digits);

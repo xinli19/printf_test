@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libftprintf.h"
+
 
 int	ft_print_int(int n)
 {
@@ -24,6 +25,7 @@ int	ft_print_int(int n)
 	}
 	p = ft_itoa(n);
 	sum = ft_print_str(p);
+	free(p);
 	return (sum);
 }
 /*

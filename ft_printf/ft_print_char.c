@@ -10,17 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libftprintf.h"
 
 int	ft_print_char(int c)
 {
 	char	ch;
 
-	if (c >= 32 && c <= 127)
-	{
-		ch = (char)c;
-		write(1, &ch, 1);
-	}
+	ch = (char)c;
+	write(1, &ch, 1);
 	return (1);
 }
 /*

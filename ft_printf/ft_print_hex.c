@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "libftprintf.h"
 static int	find_length(long n)
 {
 	int	i;
@@ -80,10 +78,11 @@ int	ft_print_hex(unsigned int	num, char flag)
     }
     length = find_length(num);
     digits = (char *)malloc(length + 1);
-    if (digits == NULL)
+    if (!digits)
 		return (0);
 	set_hex_arr(digits, num, length, flag);
 	sum = ft_put_hexstr(digits);
+	free(digits);
 	return (sum);
 }
 /*
