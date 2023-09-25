@@ -1,44 +1,45 @@
 #include <stdarg.h>
 #include "libft.h"
 
-void	check_input(va_list args,char c)
+static int	ft_print_arg(va_list args, char c, int *printed_words)
 {
 	if (c == 'c')
-		ft_putchar_fd(va_arg(args, int), 1);
+		*printed_words += ft_print_char(va_arg(args, int));
 	else if (c == 's')
-		ft_putstr_fd(va_arg(args, char *), 1);	
+		*printed_words += ft_print_str(va_arg(args, char *));	
 	else if (c == 'd' || c == 'i')
-		ft_putnbr_fd(va_arg(args,int), 1);
+		*printed_words += ft_print_int(va_arg(args, int));
 	else if (c == 'p')
-		ft_putpointer(va_arg(args, long));
+		*printed_words += ft_put_pointer(va_arg(args, unsigned int));
 	else if (c == 'x')
-		ft_puthex_lower(va_arg(args, int));
+		*printed_words += ft_print_hex(va_arg(args, unsigned int),'x');
 	else if (c == 'X')
-		ft_puthex_upper(va_arg(args, int));
+		*printed_words += ft_print_hex(va_arg(args, unsigned int), 'X');
 	else if (c == 'u')
-		ft_put_unsigned(va_arg(args, unsigned int));
+		*printed_words += ft_print_unsigned(va_arg(args, unsigned int));
 	else if (c == '%')
-		ft_putchar_fd('%', 1);
+		*printed_words += ft_print_char('%');
 }
 
-void ft_printf(char *s, ...)
+int ft_printf(char *s, ...)
  {
 /*
 	1. control the input
 */
 
 //if (!s || is_valid(s) == 0)
-//		return ;
+//		return (0);
 /*
-	2. do the while loop of the va_lst
+	2.  debug and do the make file and test it 
 */
 
 
-	int	i;
-
+	int		i;
+	int		printed_words;
 	va_list	args;
 
 	i = 0;
+	printed_words = 0;
 	va_start(args, s);
 	while (s[i])
 	{
@@ -47,13 +48,14 @@ void ft_printf(char *s, ...)
 		else if (s[i] == '%')
 		{
 			i += 1;
-			check_input(args, s[i]);
+			ft_print_arg(args, s[i], &printed_words);
 			i++;
 		}
 		i++;
 	}
 	va_end(args);
-}
+	return (printed_words);
+ }
 #include <limits.h>
 int main()
 {

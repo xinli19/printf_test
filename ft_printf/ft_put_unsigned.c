@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include  <limits.h>
 #include <unistd.h>
-#include "libft.h"
 
-static void	ft_unsigned_to_char(long num)
+
+static int	ft_unsigned_to_char(unsigned int num)
 {
 	char	digits[11];
     int     i;
+    int     sum;
 
-    if (num == 0)
-        write (1, "0", 1);
-	i = 0;
-	while (num > 0)
-	{
+    i = 0;
+    sum = 0;
+    while (num > 0)
+    {
 		digits[i] = num % 10 + '0';
 		num = num / 10;
 		i++;
@@ -22,16 +22,29 @@ static void	ft_unsigned_to_char(long num)
 	{
 		write(1, &digits[i], 1);
 		i--;
-	}
+        sum++;
+    }
+    return (sum);
 }
-void ft_put_unsigned(long n)
+
+int ft_put_unsigned(unsigned int n)
 {
-    if (n > 4294967295)
+    int sum;
+
+    sum = 0;
+    if (n > 4294967295 || n == 0)
+    {
         write(1, "0", 1);
+        return (1);
+    }
     if (n < 0)
+    {
         write(1, "4294967295", 10);
+        return (10);
+    }
     else
-        ft_unsigned_to_char(n);
+    sum = ft_unsigned_to_char(n);
+    return (sum);
 }
 /*
 int main()

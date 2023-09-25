@@ -19,7 +19,7 @@ static int	find_length(long n)
 	return (i);
 }
 
-static void	set_hex_arr(char *digits, long num, int length)
+static void	set_hex_arr(char *digits, long num, int length,char flag)
 {
 	long temp;
 
@@ -37,52 +37,62 @@ static void	set_hex_arr(char *digits, long num, int length)
 		num = num / 16;
 		length--;
 	}
+	if (flag == 'x')
+	{
+		while(*digits)
+		{
+			if (*digits <= 90 && *digits >= 65)
+				*digits += 32;
+			else
+				digits++;
+		}
+	}
 }
 
-void	ft_put_hexstr(char *s, int is_negative)
+static int	ft_put_hexstr(char *s)
 {
 	int	i;
+	int sum;
 
 	i = 0;
-    if (is_negative == 1)
-        write(1, "-", 1);
-    while (s[i] == 48)
-        i++;
+	sum = 0;
+	while (s[i] == 48)
+		i++;
     while (s[i])
     {
 		write(1, &s[i], 1);
 		i++;
-    }
+		sum++;
+	}
+	return (sum);
 }
 
-void	ft_puthex_upper(unsigned  num)
+int	ft_print_hex(unsigned int	num, char flag)
 {
 	int		length;
 	char	*digits;
-    int     is_negative;
+	int 	sum;
 
-    is_negative = 0;
-    if (num == 0)
-    {
+	if (num == 0)
+	{
         write(1, "0", 1);
-        return;
-    }
-    if (num < 0)
-    {
-        is_negative = 1;
-        num = -num;
+        return (1);
     }
     length = find_length(num);
     digits = (char *)malloc(length + 1);
     if (digits == NULL)
-		return ;
-	set_hex_arr(digits, num, length);
-	ft_put_hexstr(digits, is_negative);
+		return (0);
+	set_hex_arr(digits, num, length, flag);
+	sum = ft_put_hexstr(digits);
+	return (sum);
 }
-/*#include <limits.h>
+/*
+
+#include <limits.h>
 int main(void)
 {
-    ft_puthex_upper(INT_MAX);
-    printf("\n%X", INT_MAX);
+    ft_print_hex(INT_MAX, 'x');
+    printf("\n%x", INT_MAX);
     return (0);
-}*/
+}
+*/
