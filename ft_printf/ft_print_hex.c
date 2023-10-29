@@ -1,4 +1,7 @@
-#include "libftprintf.h"
+//#include "libftprintf.h"
+#include <stdlib.h>
+#include <unistd.h>
+
 static int	find_length(long n)
 {
 	int	i;
@@ -17,13 +20,23 @@ static int	find_length(long n)
 	return (i);
 }
 
-static void	set_hex_arr(char *digits, long num, int length,char flag)
+void	x_flag(char **digits)
 {
-	long temp;
+	while (**digits)
+	{
+		if (**digits <= 90 && **digits >= 65)
+			**digits += 32;
+		else
+			(*digits)++;
+	}
+}
+
+static void	set_hex_arr(char *digits, long num, int length, char flag)
+{
+	long	temp;
 
 	digits[length] = '\0';
 	length = length - 1;
-    
 	while (length >= 0)
 	{
 		temp = num % 16;
@@ -36,28 +49,20 @@ static void	set_hex_arr(char *digits, long num, int length,char flag)
 		length--;
 	}
 	if (flag == 'x')
-	{
-		while(*digits)
-		{
-			if (*digits <= 90 && *digits >= 65)
-				*digits += 32;
-			else
-				digits++;
-		}
-	}
+		x_flag(&digits);
 }
 
 static int	ft_put_hexstr(char *s)
 {
 	int	i;
-	int sum;
+	int	sum;
 
 	i = 0;
 	sum = 0;
 	while (s[i] == 48)
 		i++;
-    while (s[i])
-    {
+	while (s[i])
+	{
 		write(1, &s[i], 1);
 		i++;
 		sum++;
@@ -65,20 +70,20 @@ static int	ft_put_hexstr(char *s)
 	return (sum);
 }
 
-int	ft_print_hex(unsigned int	num, char flag)
+int	ft_print_hex(unsigned int num, char flag)
 {
 	int		length;
 	char	*digits;
-	int 	sum;
+	int		sum;
 
 	if (num == 0)
 	{
-        write(1, "0", 1);
-        return (1);
-    }
-    length = find_length(num);
-    digits = (char *)malloc(length + 1);
-    if (!digits)
+		write(1, "0", 1);
+		return (1);
+	}
+	length = find_length(num);
+	digits = (char *)malloc(length + 1);
+	if (!digits)
 		return (0);
 	set_hex_arr(digits, num, length, flag);
 	sum = ft_put_hexstr(digits);

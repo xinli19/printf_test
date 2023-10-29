@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "libftprintf.h"
+#include "ft_printf.h"
+
 static int	find_length(unsigned long n)
 {
 	int	i;
@@ -17,7 +18,7 @@ static int	find_length(unsigned long n)
 
 static void	set_hex_arr(char *digits, unsigned long num, int length)
 {
-	unsigned long temp;
+	unsigned long	temp;
 
 	digits[length] = '\0';
 	length = length - 1;
@@ -36,24 +37,27 @@ static void	set_hex_arr(char *digits, unsigned long num, int length)
 
 static int	ft_put_hexstr(char *s)
 {
-	int	i;
-	int sum;
+	int	sum;
 
-	i = 0;
 	sum = 0;
-	if (s[i] == 48)
+	if (ft_strlen(s) == 2)
 	{
-		write(1, &s[i], 1);
-		write(1,"x", 1);
-		i++;
+		write(1, "0x", 2);
 		sum = 2;
 	}
-	while (s[i] == 48)
-		i++;
-	while(s[i])
+	if (*s == 48)
 	{
-		write(1, &s[i], 1);
-		i++;
+		write(1, &(*s), 1);
+		write(1, "x", 1);
+		s++;
+		sum = 2;
+	}
+	while (*s == 48)
+		s++;
+	while (*s)
+	{
+		write(1, &(*s), 1);
+		s++;
 		sum++;
 	}
 	return (sum);
@@ -61,12 +65,12 @@ static int	ft_put_hexstr(char *s)
 
 static void	ft_arr_tolower(char *digits)
 {
-	while(*digits)
+	while (*digits)
 	{
 		if (*digits <= 90 && *digits >= 65)
 			*digits += 32;
 		else
-		digits++;
+			digits++;
 	}
 }
 
@@ -75,7 +79,7 @@ int	ft_print_pointer(void *p)
 	unsigned long	address;
 	int				length;
 	char			*digits;
-	int 			sum;
+	int				sum;
 
 	address = (unsigned long)p;
 	if (address == 0)

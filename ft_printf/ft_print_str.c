@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_print_str(char *s)
 {
 	int	i;
-	int sum;
-	
+	int	sum;
+
 	i = 0;
 	sum = 0;
 	if (!s)
 	{
 		write(1, "(null)", 6);
-		return (6); 
+		return (6);
 	}
 	while (s[i])
 	{

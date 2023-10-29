@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include  <limits.h>
-#include <unistd.h>
-#include "libftprintf.h"
+
+#include "ft_printf.h"
 
 static int	ft_unsigned_to_char(unsigned int num)
 {
-	char	digits[11];
+    char    digits[11];
     int     i;
     int     sum;
 

@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-
+#include "ft_printf.h"
 
 int	ft_print_int(int n)
 {
 	char	*p;
-	int 	sum;
-	
+	int		sum;
+
 	if (n == 0)
 	{
 		write (1, "0", 1);
